@@ -1,9 +1,10 @@
-import 'package:Radar/HomeScreen.dart';
+import 'package:Radar/home/view/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'auth/model/LoginScreenController.dart';
 import 'auth/view/LoginScreen.dart';
+import 'home/model/HomeScreenController.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +42,10 @@ class MyApp extends StatelessWidget {
               child: LoginScreen(secureStorage));
         },
         '/': (context) {
-          return HomeScreen();
+          return ChangeNotifierProvider<HomeScreenController>(
+            create: (context) => HomeScreenController(),
+            child: HomeScreen()
+          );
         },
       },
     );
