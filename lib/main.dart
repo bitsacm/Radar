@@ -42,10 +42,7 @@ class MyApp extends StatelessWidget {
               child: LoginScreen(secureStorage));
         },
         '/': (context) {
-          return ChangeNotifierProvider<HomeScreenController>(
-            create: (context) => HomeScreenController(),
-            child: HomeScreen()
-          );
+          return HomeScreen(secureStorage);
         },
       },
     );
