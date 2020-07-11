@@ -1,3 +1,4 @@
+import 'package:geodesy/geodesy.dart';
 import 'package:location/location.dart';
 import 'dart:math';
 
@@ -17,15 +18,9 @@ class Request {
     double requestLongitude = double.parse(list[3]);
     double userLatitude = userLocation.latitude;
     double userLongitude = userLocation.longitude;
-    double latDifference = pi * (userLatitude - requestLatitude).abs() / 180;
-    double lonDifference = pi * (userLongitude - requestLongitude).abs() / 180;
-    double a = sin(latDifference / 2) * sin(latDifference / 2) +
-        cos(pi * (requestLatitude) / 180) *
-            cos(pi * (userLatitude) / 180) *
-            sin(lonDifference / 2) *
-            sin(lonDifference / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    double distance = 6378 * c * 1000;
+    double distance = Geodesy().distanceBetweenTwoGeoPoints(
+        LatLng(requestLatitude, requestLongitude),
+        LatLng(userLatitude, userLongitude));
     return Request(
       id: id,
       title: title,

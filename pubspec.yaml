@@ -33,6 +33,7 @@ dependencies:
   fluttertoast: ^4.0.0
   location: ^3.0.0
   nearby_connections: ^1.1.1+1
+  geodesy: ^0.3.2
   
 
   # The following adds the Cupertino Icons font to your application.
