@@ -1,13 +1,12 @@
-import 'package:Radar/home/model/RequestsController.dart';
-import 'package:Radar/home/view/ProfileScreen.dart';
-import 'package:Radar/home/view/RequestsScreen.dart';
+import 'package:Radar/profile/ProfileScreen.dart';
+import 'package:Radar/requests/controller/RequestsController.dart';
+import 'package:Radar/requests/view/RequestsScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  final FlutterSecureStorage _secureStorage;
-  HomeScreen(this._secureStorage);
+  final RequestsController requestsController;
+  HomeScreen(this.requestsController);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -20,9 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     this.currentIndex = 0;
     _pages = [
-      ChangeNotifierProvider(
-          create: (context) => RequestsController(widget._secureStorage),
-          child: RequestsScreen()),
+      ChangeNotifierProvider.value(
+        value: widget.requestsController,
+        child: RequestsScreen(),
+      ),
       ProfileScreen()
     ];
   }
