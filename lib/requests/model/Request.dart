@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:geodesy/geodesy.dart';
 import 'package:location/location.dart';
-import 'dart:math';
 
 class Request {
   String id;
@@ -8,7 +8,12 @@ class Request {
   String description;
   double distance;
 
-  Request({this.id, this.title, this.description, this.distance});
+  Request({
+    @required this.id,
+    @required this.title,
+    @required this.description,
+    @required this.distance,
+  });
 
   factory Request.create(String id, String request, LocationData userLocation) {
     List<String> list = request.split('+');
