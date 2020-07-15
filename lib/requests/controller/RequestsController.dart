@@ -44,6 +44,7 @@ class RequestsController extends ChangeNotifier {
         requests.removeWhere((element) => element.id == endpointId);
         notifyListeners();
       },
+      serviceId: 'com.example.Radar'
     );
   }
 
@@ -87,6 +88,7 @@ class RequestsController extends ChangeNotifier {
         connectionState = ConnectionState.Disconnected;
         notifyListeners();
       },
+      serviceId: 'com.example.Radar'
     );
   }
 
