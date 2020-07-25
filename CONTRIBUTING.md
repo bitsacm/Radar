@@ -1,4 +1,8 @@
 ## Getting started
+- If you are completely **new to Flutter**, you might first want to install the Flutter sdk. Please follow the official documentation for [windows](https://flutter.dev/docs/get-started/install/windows), [Mac](https://flutter.dev/docs/get-started/install/macos) or [Linux](https://flutter.dev/docs/get-started/install/linux)
+- If you are **new to git or Github**, please check out [this repository](https://github.com/bitsacm/Git-Basics)
+- If you want some **resources to learn Flutter**, you might want to check [this](https://github.com/bitsacm/Slack-Stock-DAG/blob/master/flutter_app_dev.md) out.
+- **IMP:** To get Google-Sign in working properly on your deivice, please post the SHA-1 key on the slack channel, so that we can add it to the Firebase project. you can get your SHA-1 key [through Android Studio](https://medium.com/pen-bold-kiln-press/sha-1-android-studio-ec02fb893e72) or [through the command line](https://developers.google.com/android/guides/client-auth)
 - Fork the repository.
 - Select an issue to work on. If you are contributing for the first time, issues tagged `good-first-issue` might be a great place to get started.
 - Create a Pull Request after solving the issue.
