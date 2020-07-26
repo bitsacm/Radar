@@ -75,7 +75,7 @@ class LoginScreen extends StatelessWidget {
                 print('Login Sucessfull ${user.displayName}');
                 Fluttertoast.showToast(msg: 'Login Sucess ${user.displayName}');
                 SchedulerBinding.instance.addPostFrameCallback((_) {
-                  Navigator.of(context).pushReplacementNamed('/');
+                  Navigator.of(context).pushReplacementNamed('/home');
                 });
                 return Container();
               });

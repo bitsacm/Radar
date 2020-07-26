@@ -1,12 +1,15 @@
-import 'package:Radar/profile/ProfileScreen.dart';
+import 'package:Radar/profile/controller/ProfileController.dart';
+import 'package:Radar/profile/view/ProfileScreen.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
-import 'package:Radar/requests/view/RequestsScreen.dart';
+import 'package:Radar/requests/view/CreateRequestDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:Radar/requests/view/BasePage.dart';
 
 class HomeScreen extends StatefulWidget {
-  final RequestsController requestsController;
-  HomeScreen(this.requestsController);
+  final RequestsController _requestsController;
+  final ProfileController _profileController;
+  HomeScreen(this._requestsController, this._profileController);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -20,31 +23,90 @@ class _HomeScreenState extends State<HomeScreen> {
     this.currentIndex = 0;
     _pages = [
       ChangeNotifierProvider.value(
-        value: widget.requestsController,
-        child: RequestsScreen(),
+        value: widget._requestsController,
+        child: BasePage(),
       ),
-      ProfileScreen()
+      ChangeNotifierProvider.value(
+        value: widget._profileController,
+        child: ProfileScreen(),
+      ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            this.currentIndex = index;
-          });
-        },
-        currentIndex: currentIndex,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.message), title: Text('Requests')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), title: Text('Profile'))
-        ],
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 60,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 40,
+                  top: 8,
+                  bottom: 8,
+                ),
+                child: FittedBox(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentIndex = 0;
+                      });
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Icon(Icons.message),
+                        ),
+                        Text('Requests'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40,
+                  top: 8,
+                  bottom: 8,
+                ),
+                child: FittedBox(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentIndex = 1;
+                      });
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Icon(Icons.person),
+                        ),
+                        Text('Profile'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      body: _pages[this.currentIndex],
+      body: _pages[currentIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => CreateRequestDialog(),
+        ).then((value) {
+          if (value != null) widget._profileController.createRequest(value);
+        }),
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

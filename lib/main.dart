@@ -1,6 +1,6 @@
 import 'package:Radar/home/view/HomeScreen.dart';
+import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
-import 'package:Radar/requests/view/ChatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -12,17 +12,20 @@ void main() async {
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   final RequestsController _requestsController =
       RequestsController(_secureStorage);
+  final ProfileController _profileController = ProfileController();
   if ((await _secureStorage.read(key: 'UID')) == null)
     runApp(MyApp(
       initialRoute: '/login',
       secureStorage: _secureStorage,
       requestsController: _requestsController,
+      profileController: _profileController,
     ));
   else
     runApp(MyApp(
-      initialRoute: '/',
+      initialRoute: '/home',
       secureStorage: _secureStorage,
       requestsController: _requestsController,
+      profileController: _profileController,
     ));
 }
 
@@ -30,10 +33,12 @@ class MyApp extends StatelessWidget {
   final FlutterSecureStorage secureStorage;
   final String initialRoute;
   final RequestsController requestsController;
+  final ProfileController profileController;
   MyApp({
     @required this.secureStorage,
     @required this.initialRoute,
     @required this.requestsController,
+    @required this.profileController,
   });
 
   @override
@@ -46,19 +51,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: initialRoute,
       routes: {
-        '/chat': (context) {
-          return ChangeNotifierProvider.value(
-            value: requestsController,
-            child: ChatScreen(),
-          );
-        },
         '/login': (context) {
           return ChangeNotifierProvider<LoginScreenController>(
               create: (context) => LoginScreenController(),
               child: LoginScreen(secureStorage));
         },
-        '/': (context) {
-          return HomeScreen(requestsController);
+        '/home': (context) {
+          return HomeScreen(requestsController, profileController);
         },
       },
     );
