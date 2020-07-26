@@ -20,7 +20,7 @@
 - For issues that describe a new feature to be introduced, please try to elaborate on why the feature might be useful and how we can go about implementing it. If you are unsure, the slack channel might be a great place to discuss.
 
 ## Join the conversation
-If you have any doubts specific to the codebase or have anything to discuss about the project, you can join the `#radar_dev` channel on the [BITSACM slack channel](https://join.slack.com/t/bitsacm/shared_invite/zt-cmni7myb-~rbZGBb5_zffIKxu0LfKSw).
+If you have any doubts specific to the codebase or have anything to discuss about the project, you can join the `#radar_dev` channel on the [slack workspace](https://join.slack.com/t/bitsacm/shared_invite/zt-cmni7myb-~rbZGBb5_zffIKxu0LfKSw).
 
 ## List of issue labels and their meanings
 - `good-first-issue`: This means that it is a very simple issue and is good for new contributors who would like to get a basic understanding of the codebase.
