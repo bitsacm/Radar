@@ -1,4 +1,8 @@
 ## Getting started
+- If you are completely **new to Flutter**, you might first want to install the Flutter sdk. Please follow the official documentation for [windows](https://flutter.dev/docs/get-started/install/windows), [Mac](https://flutter.dev/docs/get-started/install/macos) or [Linux](https://flutter.dev/docs/get-started/install/linux)
+- If you are **new to git or Github**, please check out [this repository](https://github.com/bitsacm/Git-Basics)
+- If you want some **resources to learn Flutter**, you might want to check [this](https://github.com/bitsacm/Slack-Stock-DAG/blob/master/flutter_app_dev.md) out.
+- **IMP:** To get Google-Sign in working properly on your deivice, please post the SHA-1 key on the slack channel, so that we can add it to the Firebase project. you can get your SHA-1 key [through Android Studio](https://medium.com/pen-bold-kiln-press/sha-1-android-studio-ec02fb893e72) or [through the command line](https://developers.google.com/android/guides/client-auth)
 - Fork the repository.
 - Select an issue to work on. If you are contributing for the first time, issues tagged `good-first-issue` might be a great place to get started.
 - Create a Pull Request after solving the issue.
@@ -16,7 +20,7 @@
 - For issues that describe a new feature to be introduced, please try to elaborate on why the feature might be useful and how we can go about implementing it. If you are unsure, the slack channel might be a great place to discuss.
 
 ## Join the conversation
-If you have any doubts specific to the codebase or have anything to discuss about the project, you can join the `#radar_dev` channel on the [BITSACM slack channel](https://join.slack.com/t/bitsacm/shared_invite/zt-cmni7myb-~rbZGBb5_zffIKxu0LfKSw).
+If you have any doubts specific to the codebase or have anything to discuss about the project, you can join the `#radar_dev` channel on the [slack workspace](https://join.slack.com/t/bitsacm/shared_invite/zt-cmni7myb-~rbZGBb5_zffIKxu0LfKSw).
 
 ## List of issue labels and their meanings
 - `good-first-issue`: This means that it is a very simple issue and is good for new contributors who would like to get a basic understanding of the codebase.
