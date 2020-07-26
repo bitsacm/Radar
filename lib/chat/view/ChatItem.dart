@@ -1,4 +1,4 @@
-import 'package:Radar/requests/model/Message.dart';
+import 'package:Radar/chat/model/Message.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 

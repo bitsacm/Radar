@@ -1,33 +1,26 @@
-import 'package:Radar/requests/controller/RequestsController.dart' as requestController;
-import 'package:Radar/requests/view/CreateRequestDialog.dart';
+import 'package:Radar/requests/controller/RequestsController.dart'
+    as requestController;
+import 'package:Radar/chat/view/ChatScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:Radar/utils/ConnectionState.dart' as util;
 
 class RequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<requestController.RequestsController>(
       builder: (context, _controller, child) {
-        if (_controller.connectionState ==
-            requestController.ConnectionState.Disconnected)
+        if (_controller.connectionState == util.ConnectionState.Disconnected) {
           return Scaffold(
             body: Column(
               children: <Widget>[
-                Container(
-                  child: Text(
-                    'Active Requests',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  margin: EdgeInsets.only(top: 40),
-                ),
                 ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (context, index) => Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    margin: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     elevation: 5,
                     child: ListTile(
                       title: Text(
@@ -54,30 +47,16 @@ class RequestsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) => CreateRequestDialog(),
-              ).then((value) {
-                if (value != null) _controller.createRequest(value);
-              }),
-              child: Icon(Icons.add),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
           );
-        else if (_controller.connectionState ==
-            requestController.ConnectionState.Connecting)
+        } else if (_controller.connectionState ==
+            util.ConnectionState.Connecting)
           return Center(
             child: CircularProgressIndicator(),
           );
         else {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushNamed('/chat');
-          });
-          return Container();
+          return ChatScreen(_controller, _controller.acceptedRequest.title,
+              _controller.acceptedRequest.description);
         }
-        ;
       },
     );
   }
