@@ -10,6 +10,7 @@ Assume that user A is a student sitting in the library, and I need a c-type char
 In another scenario, suppose that I find an unattended book in the library. I could broadcast information about this book through the app, and then the owner might respond to the broadcast saying that it is his. The devices of the two users are once again connected with each other, and I might want to ask the potential owner some more questions regarding the book to make sure that he is indeed the owner.
 
 ## Roadmap
+To contribute to this repository, please refer our [Contribution Guidelines](https://github.com/bitsacm/Radar/blob/master/CONTRIBUTING.md)
 - Version 0.1.0
     * [ ] Implement a basic Authentication mechanism
     * [ ] Implement Google Nearby Messaging API to broadcast messages for help
