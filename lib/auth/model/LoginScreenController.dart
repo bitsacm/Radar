@@ -3,6 +3,7 @@ import 'package:Radar/utils/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Radar/utils/extentions.dart';
 
 enum LoginScreenState {
@@ -22,10 +23,10 @@ class LoginScreenController extends ChangeNotifier {
     _authRepository = AuthRepository();
   }
 
-  void signInUser() async {
+  void signInUser(FlutterSecureStorage _secureStorage) async {
     screenState = LoginScreenState.Loading;
     notifyListeners();
-    await Task(() => _authRepository.signInUsingGoogle())
+    await Task(() => _authRepository.signInUsingGoogle(_secureStorage))
       .attempt()
       .mapLeftToFailure()
       .run()

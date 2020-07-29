@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     onPressed: () {
-                      controller.signInUser();
+                      controller.signInUser(_secureStorage);
                     },
                     color: Colors.blueAccent,
                     child: Padding(
@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     onPressed: () {
-                      controller.signInUser();
+                      controller.signInUser(_secureStorage);
                     },
                     color: Colors.blueAccent,
                     child: Padding(
@@ -71,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 );
               }, (user) {
-                _secureStorage.write(key: 'UID', value: user.uid);
+                print(_secureStorage);
                 print('Login Sucessfull ${user.displayName}');
                 Fluttertoast.showToast(msg: 'Login Sucess ${user.displayName}');
                 SchedulerBinding.instance.addPostFrameCallback((_) {
