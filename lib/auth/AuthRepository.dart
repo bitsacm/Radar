@@ -7,8 +7,10 @@ class AuthRepository {
   static final AuthRepository _authRepository = new AuthRepository._internal();
   GoogleSignIn _googleSignIn;
   FirebaseAuth _auth;
+  static FlutterSecureStorage _secureStorage;
 
-  factory AuthRepository() {
+  factory AuthRepository(FlutterSecureStorage secureStorage) {
+    _secureStorage = secureStorage;
     return _authRepository;
   }
 
@@ -17,7 +19,7 @@ class AuthRepository {
     _auth = FirebaseAuth.instance;
   }
 
-  Future<FirebaseUser> signInUsingGoogle(FlutterSecureStorage _secureStorage) async {
+  Future<FirebaseUser> signInUsingGoogle() async {
     var googleUser = await _googleSignIn.signIn();
     try {
       var googleSignInAuthentication = await googleUser.authentication;

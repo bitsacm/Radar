@@ -16,17 +16,19 @@ class LoginScreenController extends ChangeNotifier {
   Either<Failure, FirebaseUser> user;
   AuthRepository _authRepository;
   LoginScreenState screenState;
+  FlutterSecureStorage secureStorage;
 
-  LoginScreenController() {
+  LoginScreenController(FlutterSecureStorage _secureStorage) {
+    secureStorage = _secureStorage;
     screenState = LoginScreenState.Initial;
     notifyListeners();
-    _authRepository = AuthRepository();
+    _authRepository = AuthRepository(secureStorage);
   }
 
-  void signInUser(FlutterSecureStorage _secureStorage) async {
+  void signInUser() async {
     screenState = LoginScreenState.Loading;
     notifyListeners();
-    await Task(() => _authRepository.signInUsingGoogle(_secureStorage))
+    await Task(() => _authRepository.signInUsingGoogle())
       .attempt()
       .mapLeftToFailure()
       .run()
