@@ -53,8 +53,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) {
           return ChangeNotifierProvider<LoginScreenController>(
-              create: (context) => LoginScreenController(),
-              child: LoginScreen(secureStorage));
+              create: (context) => LoginScreenController(secureStorage),
+              child: LoginScreen());
         },
         '/home': (context) {
           return HomeScreen(requestsController, profileController);

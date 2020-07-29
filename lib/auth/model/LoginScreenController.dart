@@ -3,6 +3,7 @@ import 'package:Radar/utils/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Radar/utils/extentions.dart';
 
 enum LoginScreenState {
@@ -15,11 +16,13 @@ class LoginScreenController extends ChangeNotifier {
   Either<Failure, FirebaseUser> user;
   AuthRepository _authRepository;
   LoginScreenState screenState;
+  FlutterSecureStorage secureStorage;
 
-  LoginScreenController() {
+  LoginScreenController(FlutterSecureStorage _secureStorage) {
+    secureStorage = _secureStorage;
     screenState = LoginScreenState.Initial;
     notifyListeners();
-    _authRepository = AuthRepository();
+    _authRepository = AuthRepository(secureStorage);
   }
 
   void signInUser() async {

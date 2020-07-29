@@ -6,8 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
-  final FlutterSecureStorage _secureStorage;
-  LoginScreen(this._secureStorage);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +69,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 );
               }, (user) {
-                _secureStorage.write(key: 'UID', value: user.uid);
                 print('Login Sucessfull ${user.displayName}');
                 Fluttertoast.showToast(msg: 'Login Sucess ${user.displayName}');
                 SchedulerBinding.instance.addPostFrameCallback((_) {
