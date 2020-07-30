@@ -30,6 +30,6 @@ Screen widget and the associated helper widgets should be together inside a view
 - Try to minimise the number of widgets in a file to one and always prefer keeping the widget tree of screen files lean by moving the sub widgets used in the screen file 
 into seperate files as helper widgets.
 - Casing Conventions:
- - Package names should be in lower case.
- - Class names should follow Pascal case.
- - Variable and function names should follow Camel case.
+  - Package names should be in lower case.
+  - Class names should follow Pascal case.
+  - Variable and function names should follow Camel case.
