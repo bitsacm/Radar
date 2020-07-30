@@ -17,19 +17,19 @@ To contribute to this repository, please refer our [Contribution Guidelines](htt
     * [ ] Implement Google Nearby Connections API to connect two nearby devices
     * [ ] Implement geo-fencing to get the location that is broadcasted.
    
-##Conventions to follow:
+## Conventions to follow:
 
- ###Package Structure
+ #### Package Structure
 
--Excluding the main.dart file all the files are to be written within respective packages inside the lib folder of the project.
--A new package is to be created when there is a need to add a new screen or a new functionality that doesn't overlap with the existing ones in the project.
--Avoid adding files directly into the packages and instead create appropriate sub packages with the files inside them.
--Structure the individual layers of code into respective sub packages to ensure model, view and the intermediate layer are properly separated for example, the
+- Excluding the main.dart file all the files are to be written within respective packages inside the lib folder of the project.
+- A new package is to be created when there is a need to add a new screen or a new functionality that doesn't overlap with the existing ones in the project.
+- Avoid adding files directly into the packages and instead create appropriate sub packages with the files inside them.
+- Structure the individual layers of code into respective sub packages to ensure model, view and the intermediate layer are properly separated for example, the
 Screen widget and the associated helper widgets should be together inside a view sub package, data classes and repository in the model one, etc.
--Any classes, functions, constants that have an app wide use should be present in the util package.
--Try to minimise the number of widgets in a file to one and always prefer keeping the widget tree of screen files lean by moving the sub widgets used in the screen file 
+- Any classes, functions, constants that have an app wide use should be present in the util package.
+- Try to minimise the number of widgets in a file to one and always prefer keeping the widget tree of screen files lean by moving the sub widgets used in the screen file 
 into seperate files as helper widgets.
--Casing Conventions:
- -Package names should be in lower case.
- -Class names should follow Pascal case.
- -Variable and function names should follow Camel case.
+- Casing Conventions:
+ - Package names should be in lower case.
+ - Class names should follow Pascal case.
+ - Variable and function names should follow Camel case.
