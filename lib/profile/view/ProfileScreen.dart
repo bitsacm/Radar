@@ -2,6 +2,7 @@ import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/chat/view/ChatScreen.dart';
 import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
+import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
@@ -22,8 +23,8 @@ class ProfileScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Consumer<ProfileController>(
-        builder: (context, _controller, child) {
+      body: Consumer2<ProfileController, RequestsController>(
+        builder: (context, _controller, _, child) {
           if (_controller.connectionState ==
               util.ConnectionState.Disconnected) {
             return Stack(
@@ -83,8 +84,9 @@ class ProfileScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           else {
-            return ChatScreen(_controller, _controller.myRequest.title,
-                _controller.myRequest.description);
+            return ChatScreen(
+              _controller,
+            );
           }
         },
       ),

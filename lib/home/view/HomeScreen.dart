@@ -22,12 +22,26 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     this.currentIndex = 0;
     _pages = [
-      ChangeNotifierProvider.value(
-        value: widget._requestsController,
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(
+            value: widget._requestsController,
+          ),
+          ChangeNotifierProvider.value(
+            value: widget._profileController,
+          ),
+        ],
         child: BasePage(),
       ),
-      ChangeNotifierProvider.value(
-        value: widget._profileController,
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(
+            value: widget._requestsController,
+          ),
+          ChangeNotifierProvider.value(
+            value: widget._profileController,
+          ),
+        ],
         child: ProfileScreen(),
       ),
     ];
