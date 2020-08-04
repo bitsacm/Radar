@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'package:Radar/utils/ConnectedUsers.dart';
+import 'package:Radar/utils/User.dart';
 import 'package:Radar/chat/model/Message.dart';
 import 'package:Radar/requests/model/Request.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +16,11 @@ class RequestsController extends ChangeNotifier {
   final Location _location = Location();
   final Strategy _strategy = Strategy.P2P_CLUSTER;
   final List<Request> requests = [];
-  final List<Message> messages = [];
-  String _connectedDeviceID;
-  Message _currentMessage;
   Request acceptedRequest;
   util.ConnectionState connectionState;
+  ConnectedUsers connectedUsers;
 
-  RequestsController(this._secureStorage) {
+  RequestsController(this._secureStorage, this.connectedUsers) {
     connectionState = util.ConnectionState.Disconnected;
     _init();
   }
@@ -45,7 +45,7 @@ class RequestsController extends ChangeNotifier {
   }
 
   void requestConnection(Request request) async {
-    acceptedRequest=request;
+    acceptedRequest = request;
     String uid = await _secureStorage.read(key: 'UID');
     _nearby.requestConnection(
       uid,
@@ -61,7 +61,7 @@ class RequestsController extends ChangeNotifier {
 
           notifyListeners();
           Fluttertoast.showToast(msg: status.toString());
-          _connectedDeviceID = endpointId;
+          connectedUsers.requestAccepter = User(endpointId);
         }
       },
       onDisconnected: (endpointId) {
@@ -72,32 +72,45 @@ class RequestsController extends ChangeNotifier {
   }
 
   void sendMessage(String message) {
-    _currentMessage = Message(text: message, ownMessage: true);
-    _nearby.sendBytesPayload(
-        _connectedDeviceID, Uint8List.fromList(message.codeUnits));
+    connectedUsers.requestAccepter.currentMessage = Message(text: message, ownMessage: true);
+    _nearby.sendBytesPayload(connectedUsers.requestAccepter.endpointId,
+        Uint8List.fromList(message.codeUnits));
   }
 
   void acceptConnection(endpointId) {
     _nearby.acceptConnection(
       endpointId,
       onPayLoadRecieved: (endpointId, payload) {
-        print('request message recieved');
-
-        if (endpointId == _connectedDeviceID) {
-          messages.add(Message(
-              text: String.fromCharCodes(payload.bytes), ownMessage: false));
+        if (endpointId == connectedUsers.requestAccepter.endpointId) {
+          connectedUsers.requestAccepter.messages.add(
+            Message(
+                text: String.fromCharCodes(payload.bytes), ownMessage: false),
+          );
+          notifyListeners();
+        } else if (endpointId == connectedUsers.requestCreater.endpointId) {
+          connectedUsers.requestCreater.messages.add(
+            Message(
+                text: String.fromCharCodes(payload.bytes), ownMessage: false),
+          );
           notifyListeners();
         }
       },
       onPayloadTransferUpdate: (endpointId, payloadTransferUpdate) {
-        print('request payload update');
-
         if (payloadTransferUpdate.status == PayloadStatus.SUCCESS &&
-            endpointId == _connectedDeviceID) {
-          if (_currentMessage != null) {
-            messages.add(_currentMessage);
+            endpointId == connectedUsers.requestAccepter.endpointId) {
+          if (connectedUsers.requestAccepter.currentMessage != null) {
+            connectedUsers.requestAccepter.messages.add(connectedUsers.requestAccepter.currentMessage);
             notifyListeners();
-            _currentMessage = null;
+
+            connectedUsers.requestAccepter.currentMessage = null;
+          }
+        } else if (payloadTransferUpdate.status == PayloadStatus.SUCCESS &&
+            endpointId == connectedUsers.requestCreater.endpointId) {
+
+          if (connectedUsers.requestCreater.currentMessage != null) {
+            connectedUsers.requestCreater.messages.add(connectedUsers.requestCreater.currentMessage);
+            notifyListeners();
+            connectedUsers.requestCreater.currentMessage = null;
           }
         } else if (payloadTransferUpdate.status == PayloadStatus.FAILURE) {
           Fluttertoast.showToast(msg: payloadTransferUpdate.status.toString());

@@ -1,3 +1,4 @@
+import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/requests/controller/RequestsController.dart'
     as requestController;
 import 'package:Radar/chat/view/ChatScreen.dart';
@@ -8,8 +9,8 @@ import 'package:Radar/utils/ConnectionState.dart' as util;
 class RequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<requestController.RequestsController>(
-      builder: (context, _controller, child) {
+    return Consumer2<requestController.RequestsController, ProfileController>(
+      builder: (context, _controller, _, child) {
         if (_controller.connectionState == util.ConnectionState.Disconnected) {
           return Scaffold(
             body: Column(
@@ -54,8 +55,7 @@ class RequestsScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         else {
-          return ChatScreen(_controller, _controller.acceptedRequest.title,
-              _controller.acceptedRequest.description);
+          return ChatScreen(_controller);
         }
       },
     );
