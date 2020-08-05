@@ -11,7 +11,7 @@ class RequestsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<requestController.RequestsController, ProfileController>(
       builder: (context, _controller, _, child) {
-        if (_controller.connectionState == util.ConnectionState.Disconnected) {
+        if (_controller.connectedUsers.requestAccepter.connectionState == util.ConnectionState.Disconnected) {
           return Scaffold(
             body: Column(
               children: <Widget>[
@@ -49,7 +49,7 @@ class RequestsScreen extends StatelessWidget {
               ],
             ),
           );
-        } else if (_controller.connectionState ==
+        } else if (_controller.connectedUsers.requestAccepter.connectionState ==
             util.ConnectionState.Connecting)
           return Center(
             child: CircularProgressIndicator(),

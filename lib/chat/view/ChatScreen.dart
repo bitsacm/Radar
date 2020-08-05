@@ -15,12 +15,14 @@ class ChatScreen extends StatelessWidget {
     String description;
     List<Message> messages;
     if (_controller is RequestsController) {
-      title = _controller.acceptedRequest.title;
-      description = _controller.acceptedRequest.description;
+      title = _controller.connectedUsers.requestAccepter.requestTitle;
+      description =
+          _controller.connectedUsers.requestAccepter.requestDescription;
       messages = _controller.connectedUsers.requestAccepter.messages;
     } else {
-      title = _controller.myRequest.title;
-      description = _controller.myRequest.description;
+      title = _controller.connectedUsers.requestCreater.requestTitle;
+      description =
+          _controller.connectedUsers.requestCreater.requestDescription;
       messages = _controller.connectedUsers.requestCreater.messages;
     }
     return Scaffold(
@@ -35,7 +37,7 @@ class ChatScreen extends StatelessWidget {
                 itemCount: messages.length,
               ),
             ),
-            ChatInput(_controller),
+            ChatInput(_controller.sendMessage),
           ],
         ),
       ),

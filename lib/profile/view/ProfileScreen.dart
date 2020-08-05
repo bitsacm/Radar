@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Consumer2<ProfileController, RequestsController>(
         builder: (context, _controller, _, child) {
-          if (_controller.connectionState ==
+          if (_controller.connectedUsers.requestCreater.connectionState ==
               util.ConnectionState.Disconnected) {
             return Stack(
               children: <Widget>[
@@ -62,7 +62,8 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (_controller.myRequest != null)
+                if (_controller.connectedUsers.requestCreater
+                    .doRequestDetailsExist())
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
@@ -78,7 +79,8 @@ class ProfileScreen extends StatelessWidget {
                   )
               ],
             );
-          } else if (_controller.connectionState ==
+          } else if (_controller
+                  .connectedUsers.requestCreater.connectionState ==
               util.ConnectionState.Connecting)
             return Center(
               child: CircularProgressIndicator(),

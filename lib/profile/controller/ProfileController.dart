@@ -1,9 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:Radar/utils/ConnectedUsers.dart';
-import 'package:Radar/utils/User.dart';
 import 'package:Radar/chat/model/Message.dart';
-import 'package:Radar/requests/model/MyRequest.dart';
+import 'package:Radar/utils/User.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
@@ -14,49 +12,49 @@ class ProfileController with ChangeNotifier {
   final Nearby _nearby = Nearby();
   final Location _location = Location();
   final Strategy _strategy = Strategy.P2P_CLUSTER;
-  util.ConnectionState connectionState;
-  MyRequest myRequest;
   ConnectedUsers connectedUsers;
 
-  ProfileController(this.connectedUsers) {
-    connectionState = util.ConnectionState.Disconnected;
-  }
+  ProfileController(this.connectedUsers);
+
   void createRequest(Map<String, String> response) async {
     LocationData data = await _location.getLocation();
 
     await _nearby.startAdvertising(
         '${response['title']}+${response['description']}+${data.latitude}+${data.longitude}',
         _strategy, onConnectionInitiated: (endpointId, connectionInfo) async {
-      connectionState = util.ConnectionState.Connecting;
+      connectedUsers.requestCreater.connectionState =
+          util.ConnectionState.Connecting;
       notifyListeners();
       acceptConnection(endpointId);
     }, onConnectionResult: (endpointId, status) {
       if (status == Status.CONNECTED) {
-        connectionState = util.ConnectionState.Connected;
+        connectedUsers.requestCreater.endpointId = endpointId;
+        connectedUsers.requestCreater.connectionState =
+            util.ConnectionState.Connected;
+
         notifyListeners();
         Fluttertoast.showToast(msg: status.toString());
-        connectedUsers.requestCreater = User(endpointId);
       }
     }, onDisconnected: (endpointId) {
-      connectionState = util.ConnectionState.Disconnected;
+      connectedUsers.requestCreater.connectionState =
+          util.ConnectionState.Disconnected;
       notifyListeners();
+      connectedUsers.requestCreater.clearMessages();
     }, serviceId: 'com.example.Radar');
-    myRequest = MyRequest(
-      title: response['title'],
-      description: response['description'],
-      userLocation: data,
-    );
+    connectedUsers.requestCreater
+        .addRequestDetails(response['title'], response['description']);
     notifyListeners();
   }
 
   void sendMessage(String message) {
-    connectedUsers.requestCreater.currentMessage = Message(text: message, ownMessage: true);
+    connectedUsers.requestCreater.currentMessage =
+        Message(text: message, ownMessage: true);
     _nearby.sendBytesPayload(connectedUsers.requestCreater.endpointId,
         Uint8List.fromList(message.codeUnits));
   }
 
   void cancelMyRequest() async {
-    myRequest = null;
+    connectedUsers.requestCreater.clearRequestDetails();
     await _nearby.stopAdvertising();
     notifyListeners();
   }
@@ -83,16 +81,16 @@ class ProfileController with ChangeNotifier {
         if (payloadTransferUpdate.status == PayloadStatus.SUCCESS &&
             endpointId == connectedUsers.requestCreater.endpointId) {
           if (connectedUsers.requestCreater.currentMessage != null) {
-
-            connectedUsers.requestCreater.messages.add(connectedUsers.requestCreater.currentMessage);
+            connectedUsers.requestCreater.messages
+                .add(connectedUsers.requestCreater.currentMessage);
             notifyListeners();
             connectedUsers.requestCreater.currentMessage = null;
-
           }
         } else if (payloadTransferUpdate.status == PayloadStatus.SUCCESS &&
             endpointId == connectedUsers.requestAccepter.endpointId) {
           if (connectedUsers.requestAccepter.currentMessage != null) {
-            connectedUsers.requestAccepter.messages.add(connectedUsers.requestAccepter.currentMessage);
+            connectedUsers.requestAccepter.messages
+                .add(connectedUsers.requestAccepter.currentMessage);
             notifyListeners();
             connectedUsers.requestAccepter.currentMessage = null;
           }
