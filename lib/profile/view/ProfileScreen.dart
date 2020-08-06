@@ -2,6 +2,7 @@ import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/chat/view/ChatScreen.dart';
 import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
+import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
@@ -22,9 +23,9 @@ class ProfileScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Consumer<ProfileController>(
-        builder: (context, _controller, child) {
-          if (_controller.connectionState ==
+      body: Consumer2<ProfileController, RequestsController>(
+        builder: (context, _controller, _, child) {
+          if (_controller.connectedUsers.requestCreater.connectionState ==
               util.ConnectionState.Disconnected) {
             return Stack(
               children: <Widget>[
@@ -61,7 +62,8 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (_controller.myRequest != null)
+                if (_controller.connectedUsers.requestCreater
+                    .doRequestDetailsExist())
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
@@ -77,14 +79,16 @@ class ProfileScreen extends StatelessWidget {
                   )
               ],
             );
-          } else if (_controller.connectionState ==
+          } else if (_controller
+                  .connectedUsers.requestCreater.connectionState ==
               util.ConnectionState.Connecting)
             return Center(
               child: CircularProgressIndicator(),
             );
           else {
-            return ChatScreen(_controller, _controller.myRequest.title,
-                _controller.myRequest.description);
+            return ChatScreen(
+              _controller,
+            );
           }
         },
       ),

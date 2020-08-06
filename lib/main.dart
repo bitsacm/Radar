@@ -1,3 +1,4 @@
+import 'package:Radar/utils/ConnectedUsers.dart';
 import 'package:Radar/home/view/HomeScreen.dart';
 import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
@@ -10,9 +11,11 @@ import 'auth/view/LoginScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  final ConnectedUsers _connectedUsers = ConnectedUsers();
   final RequestsController _requestsController =
-      RequestsController(_secureStorage);
-  final ProfileController _profileController = ProfileController();
+      RequestsController(_secureStorage, _connectedUsers);
+  final ProfileController _profileController =
+      ProfileController(_connectedUsers);
   if ((await _secureStorage.read(key: 'UID')) == null)
     runApp(MyApp(
       initialRoute: '/login',

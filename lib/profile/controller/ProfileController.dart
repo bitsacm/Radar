@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-
+import 'package:Radar/utils/ConnectedUsers.dart';
 import 'package:Radar/chat/model/Message.dart';
-import 'package:Radar/requests/model/MyRequest.dart';
+import 'package:Radar/utils/User.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
@@ -12,62 +12,65 @@ class ProfileController with ChangeNotifier {
   final Nearby _nearby = Nearby();
   final Location _location = Location();
   final Strategy _strategy = Strategy.P2P_CLUSTER;
-  final List<Message> messages = [];
-  String _connectedDeviceID;
-  Message _currentMessage;
-  util.ConnectionState connectionState;
-  MyRequest myRequest;
+  ConnectedUsers connectedUsers;
 
-  ProfileController() {
-    connectionState = util.ConnectionState.Disconnected;
-  }
+  ProfileController(this.connectedUsers);
+
   void createRequest(Map<String, String> response) async {
     LocationData data = await _location.getLocation();
 
     await _nearby.startAdvertising(
         '${response['title']}+${response['description']}+${data.latitude}+${data.longitude}',
         _strategy, onConnectionInitiated: (endpointId, connectionInfo) async {
-      connectionState = util.ConnectionState.Connecting;
+      connectedUsers.requestCreater.connectionState =
+          util.ConnectionState.Connecting;
       notifyListeners();
       acceptConnection(endpointId);
     }, onConnectionResult: (endpointId, status) {
       if (status == Status.CONNECTED) {
-        connectionState = util.ConnectionState.Connected;
+        connectedUsers.requestCreater.endpointId = endpointId;
+        connectedUsers.requestCreater.connectionState =
+            util.ConnectionState.Connected;
+
         notifyListeners();
         Fluttertoast.showToast(msg: status.toString());
-        _connectedDeviceID = endpointId;
       }
     }, onDisconnected: (endpointId) {
-      connectionState = util.ConnectionState.Disconnected;
+      connectedUsers.requestCreater.connectionState =
+          util.ConnectionState.Disconnected;
       notifyListeners();
+      connectedUsers.requestCreater.clearMessages();
     }, serviceId: 'com.example.Radar');
-    myRequest = MyRequest(
-      title: response['title'],
-      description: response['description'],
-      userLocation: data,
-    );
+    connectedUsers.requestCreater
+        .addRequestDetails(response['title'], response['description']);
     notifyListeners();
   }
 
   void sendMessage(String message) {
-    _currentMessage = Message(text: message, ownMessage: true);
-    _nearby.sendBytesPayload(
-        _connectedDeviceID, Uint8List.fromList(message.codeUnits));
+    connectedUsers.requestCreater.currentMessage =
+        Message(text: message, ownMessage: true);
+    _nearby.sendBytesPayload(connectedUsers.requestCreater.endpointId,
+        Uint8List.fromList(message.codeUnits));
   }
 
   void cancelMyRequest() async {
-    myRequest = null;
+    connectedUsers.requestCreater.clearRequestDetails();
     await _nearby.stopAdvertising();
     notifyListeners();
   }
 
-  void acceptConnection(endpointId) async {
+  void acceptConnection(endpointId) {
     _nearby.acceptConnection(
       endpointId,
       onPayLoadRecieved: (endpointId, payload) {
-        print('profile message recieved');
-        if (endpointId == _connectedDeviceID) {
-          messages.add(
+        if (endpointId == connectedUsers.requestCreater.endpointId) {
+          connectedUsers.requestCreater.messages.add(
+            Message(
+                text: String.fromCharCodes(payload.bytes), ownMessage: false),
+          );
+          notifyListeners();
+        } else if (endpointId == connectedUsers.requestAccepter.endpointId) {
+          connectedUsers.requestAccepter.messages.add(
             Message(
                 text: String.fromCharCodes(payload.bytes), ownMessage: false),
           );
@@ -75,13 +78,21 @@ class ProfileController with ChangeNotifier {
         }
       },
       onPayloadTransferUpdate: (endpointId, payloadTransferUpdate) {
-        print('profile payload update');
         if (payloadTransferUpdate.status == PayloadStatus.SUCCESS &&
-            endpointId == _connectedDeviceID) {
-          if (_currentMessage != null) {
-            messages.add(_currentMessage);
+            endpointId == connectedUsers.requestCreater.endpointId) {
+          if (connectedUsers.requestCreater.currentMessage != null) {
+            connectedUsers.requestCreater.messages
+                .add(connectedUsers.requestCreater.currentMessage);
             notifyListeners();
-            _currentMessage = null;
+            connectedUsers.requestCreater.currentMessage = null;
+          }
+        } else if (payloadTransferUpdate.status == PayloadStatus.SUCCESS &&
+            endpointId == connectedUsers.requestAccepter.endpointId) {
+          if (connectedUsers.requestAccepter.currentMessage != null) {
+            connectedUsers.requestAccepter.messages
+                .add(connectedUsers.requestAccepter.currentMessage);
+            notifyListeners();
+            connectedUsers.requestAccepter.currentMessage = null;
           }
         } else if (payloadTransferUpdate.status == PayloadStatus.FAILURE) {
           Fluttertoast.showToast(msg: payloadTransferUpdate.status.toString());
