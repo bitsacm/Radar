@@ -4,6 +4,7 @@ import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
 
@@ -65,8 +66,13 @@ class ProfileScreen extends StatelessWidget {
                                 fontFamily: 'Verdana',
                                 fontSize: 16,
                               ),
-                              suffixIcon: Image.asset(
-                                  'assets/profile_screen/edit_name.png'),
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: SvgPicture.asset(
+                                  'assets/profile_screen/edit_name.svg',
+                                ),
+                              ),
+
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
                                 borderSide:
