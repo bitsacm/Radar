@@ -1,17 +1,18 @@
 import 'package:Radar/profile/controller/ProfileController.dart';
+import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
 
 class MyRequestDetails extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final ProfileController _controller;
+  final RequestsController _controller;
   MyRequestDetails(this._controller);
   @override
   Widget build(BuildContext context) {
     _titleController.text =
-        _controller.connectedUsers.requestCreater.requestTitle;
+        _controller.roles.requestCreater.requestTitle;
     _descriptionController.text =
-        _controller.connectedUsers.requestCreater.requestDescription;
+        _controller.roles.requestCreater.requestDescription;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.only(bottom: 20),

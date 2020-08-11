@@ -1,8 +1,9 @@
 import 'package:Radar/profile/controller/ProfileController.dart';
+import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
 
 class MyRequestBar extends StatelessWidget {
-  final ProfileController _controller;
+  final RequestsController _controller;
   MyRequestBar(this._controller);
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class MyRequestBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              _controller.connectedUsers.requestCreater.requestTitle,
+              _controller.roles.requestCreater.requestTitle,
               style: TextStyle(
                 fontSize: 16,
               ),

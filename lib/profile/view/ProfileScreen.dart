@@ -1,5 +1,4 @@
 import 'package:Radar/profile/controller/ProfileController.dart';
-import 'package:Radar/chat/view/ChatScreen.dart';
 import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
@@ -27,9 +26,13 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: Consumer2<ProfileController, RequestsController>(
-        builder: (context, _controller, _, child) {
-          if (_controller.connectedUsers.requestCreater.connectionState ==
-              util.ConnectionState.Disconnected) {
+        builder: (context, _profileController, _requestscontroller, child) {
+          if (_requestscontroller
+                      .roles.requestCreater.connectionState ==
+                  util.ConnectionState.Disconnected ||
+              _requestscontroller
+                      .roles.requestCreater.connectionState ==
+                  util.ConnectionState.Connected) {
             return Stack(
               children: <Widget>[
                 Container(
@@ -97,14 +100,15 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (_controller.connectedUsers.requestCreater
+                if (_requestscontroller.roles.requestCreater
                     .doRequestDetailsExist())
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
-                      child: MyRequestBar(_controller),
+                      child: MyRequestBar(_requestscontroller),
                       onTap: () => showModalBottomSheet(
-                        builder: (context) => MyRequestDetails(_controller),
+                        builder: (context) =>
+                            MyRequestDetails(_requestscontroller),
                         context: context,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
@@ -114,17 +118,10 @@ class ProfileScreen extends StatelessWidget {
                   )
               ],
             );
-          } else if (_controller
-                  .connectedUsers.requestCreater.connectionState ==
-              util.ConnectionState.Connecting)
+          } else
             return Center(
               child: CircularProgressIndicator(),
             );
-          else {
-            return ChatScreen(
-              _controller,
-            );
-          }
         },
       ),
     );

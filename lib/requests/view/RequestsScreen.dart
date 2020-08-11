@@ -1,7 +1,5 @@
-import 'package:Radar/profile/controller/ProfileController.dart';
-import 'package:Radar/requests/controller/RequestsController.dart'
-    as requestController;
-import 'package:Radar/chat/view/ChatScreen.dart';
+import 'package:Radar/requests/view/CustomFloatingButton.dart';
+import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
@@ -9,10 +7,23 @@ import 'package:Radar/utils/ConnectionState.dart' as util;
 class RequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<requestController.RequestsController, ProfileController>(
-      builder: (context, _controller, _, child) {
-        if (_controller.connectedUsers.requestAccepter.connectionState == util.ConnectionState.Disconnected) {
+    return Consumer<RequestsController>(
+      builder: (context, _controller, child) {
+        if (_controller.roles.requestAccepter.connectionState ==
+                util.ConnectionState.Disconnected ||
+            _controller.roles.requestAccepter.connectionState ==
+                util.ConnectionState.Connected) {
           return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0.0,
+              title: Text(
+                'Active Requests',
+                style: TextStyle(color: Color.fromRGBO(80, 80, 79, 1)),
+              ),
+              backgroundColor: Colors.white,
+            ),
             body: Column(
               children: <Widget>[
                 ListView.builder(
@@ -48,15 +59,12 @@ class RequestsScreen extends StatelessWidget {
                 ),
               ],
             ),
+            floatingActionButton: CustomFloatingButton(),
           );
-        } else if (_controller.connectedUsers.requestAccepter.connectionState ==
-            util.ConnectionState.Connecting)
+        } else
           return Center(
             child: CircularProgressIndicator(),
           );
-        else {
-          return ChatScreen(_controller);
-        }
       },
     );
   }

@@ -1,15 +1,12 @@
-import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/profile/view/ProfileScreen.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:Radar/requests/view/CreateRequestDialog.dart';
+import 'package:Radar/requests/view/RequestsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Radar/requests/view/BasePage.dart';
+
 
 class HomeScreen extends StatefulWidget {
-  final RequestsController _requestsController;
-  final ProfileController _profileController;
-  HomeScreen(this._requestsController, this._profileController);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -22,28 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     this.currentIndex = 0;
     _pages = [
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: widget._requestsController,
-          ),
-          ChangeNotifierProvider.value(
-            value: widget._profileController,
-          ),
-        ],
-        child: BasePage(),
-      ),
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: widget._requestsController,
-          ),
-          ChangeNotifierProvider.value(
-            value: widget._profileController,
-          ),
-        ],
-        child: ProfileScreen(),
-      ),
+      RequestsScreen(),
+      ProfileScreen(),
     ];
   }
 
@@ -116,7 +93,9 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           builder: (context) => CreateRequestDialog(),
         ).then((value) {
-          if (value != null) widget._profileController.createRequest(value);
+          if (value != null)
+            Provider.of<RequestsController>(context, listen: false)
+                .createRequest(value);
         }),
         child: Icon(Icons.add),
       ),

@@ -1,15 +1,16 @@
 import 'package:Radar/utils/ConnectionState.dart';
 import '../chat/model/Message.dart';
 
-class User {
+class Role {
   String endpointId;
   List<Message> messages = [];
   Message currentMessage;
   ConnectionState connectionState = ConnectionState.Disconnected;
   String requestTitle;
   String requestDescription;
+  Function sendMessage;
 
-  User({this.endpointId});
+  Role({this.endpointId, this.sendMessage});
 
   void addRequestDetails(String title, String description) {
     requestTitle = title;
@@ -31,5 +32,6 @@ class User {
   void clearMessages() {
     messages.clear();
     currentMessage = null;
+    sendMessage=null;
   }
 }

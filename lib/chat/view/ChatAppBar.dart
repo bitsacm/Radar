@@ -1,4 +1,3 @@
-import 'package:Radar/requests/model/Request.dart';
 import 'package:flutter/material.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {

@@ -1,4 +1,5 @@
-import 'package:Radar/utils/ConnectedUsers.dart';
+import 'package:Radar/chat/view/ChatScreen.dart';
+import 'package:Radar/utils/Roles.dart';
 import 'package:Radar/home/view/HomeScreen.dart';
 import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
@@ -11,11 +12,10 @@ import 'auth/view/LoginScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-  final ConnectedUsers _connectedUsers = ConnectedUsers();
+  final Roles _roles = Roles();
   final RequestsController _requestsController =
-      RequestsController(_secureStorage, _connectedUsers);
-  final ProfileController _profileController =
-      ProfileController(_connectedUsers);
+      RequestsController(_secureStorage, _roles);
+  final ProfileController _profileController = ProfileController();
   if ((await _secureStorage.read(key: 'UID')) == null)
     runApp(MyApp(
       initialRoute: '/login',
@@ -56,12 +56,27 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) {
           return ChangeNotifierProvider<LoginScreenController>(
-              create: (context) => LoginScreenController(secureStorage),
-              child: LoginScreen());
+            create: (context) => LoginScreenController(secureStorage),
+            child: LoginScreen(),
+          );
         },
         '/home': (context) {
-          return HomeScreen(requestsController, profileController);
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider.value(value: requestsController),
+              ChangeNotifierProvider.value(value: profileController),
+            ],
+            child: HomeScreen(),
+          );
         },
+        '/requestAccepterChat': (context) {
+          return ChangeNotifierProvider.value(
+              value: requestsController, child: ChatScreen());
+        },
+        '/requestCreaterChat': (context) {
+          return ChangeNotifierProvider.value(
+              value: requestsController, child: ChatScreen());
+        }
       },
     );
   }
