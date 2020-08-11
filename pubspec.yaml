@@ -36,6 +36,7 @@ dependencies:
   geodesy: ^0.3.2
   bubble: ^1.1.9+1
   connectivity: ^0.4.9
+  flutter_svg: ^0.17.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -59,6 +60,8 @@ flutter:
   assets:
     - assets/
     - assets/login_screen/
+    - assets/profile_screen/
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -79,11 +82,10 @@ flutter:
       fonts:
         - asset: assets/fonts/Poppins-MediumItalic.ttf
           style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+    - family: Verdana
+      fonts:
+        - asset: assets/fonts/Verdana.ttf
+        
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -4,6 +4,7 @@ import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
 
@@ -12,12 +13,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
+        backgroundColor: Color.fromARGB(255, 22, 86, 189),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.person_outline),
+            icon: Image.asset('assets/profile_screen/logout.png'),
             onPressed: null,
             color: Colors.white,
           )
@@ -30,24 +33,56 @@ class ProfileScreen extends StatelessWidget {
             return Stack(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 40),
+                  padding: EdgeInsets.symmetric(
+                    vertical: mediaQuery.size.height > 400 ? 40 : 0,
+                  ),
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: <Widget>[
                       CircleAvatar(
-                        //backgroundImage: NetworkImage('url'),
-                        radius: 60,
+                        backgroundImage:
+                            AssetImage('assets/profile_screen/profile_pic.png'),
+                        radius: 50,
+                        backgroundColor: Colors.transparent,
                       ),
+                      // ),
                       Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(12),
                         child: ListTile(
-                          trailing: IconButton(
-                              icon: Icon(Icons.save), onPressed: null),
+                          // trailing: IconButton(
+                          // icon: Image.asset(
+                          //     'assets/profile_screen/edit_name.png'),
+                          // onPressed: null),
                           title: TextFormField(
                             controller: nameController,
                             decoration: InputDecoration(
-                              icon: Icon(Icons.person),
-                              labelText: 'Name ',
+                              // icon: Icon(Icons.person),
+                              // labelText: 'Name ',
+
+                              fillColor: Colors.white,
+                              focusColor: Colors.white,
+                              hintText: 'Full Name',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Verdana',
+                                fontSize: 16,
+                              ),
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: SvgPicture.asset(
+                                  'assets/profile_screen/edit_name.svg',
+                                ),
+                              ),
+
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(9),
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 0.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(9),
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 0.0),
+                              ),
                             ),
                             onEditingComplete: null,
                             validator: (String value) {
