@@ -1,6 +1,8 @@
 import 'package:Radar/requests/view/CustomFloatingButton.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
+import 'package:Radar/requests/view/ConnectedDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
 
@@ -9,6 +11,44 @@ class RequestsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RequestsController>(
       builder: (context, _controller, child) {
+        if (_controller.roles.requestAccepter.connectionState ==
+                util.ConnectionState.Connected &&
+            _controller.roles.requestAccepter.shownConnectedDialog == false) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConnectedDialog(
+                    ownRequest: false,
+                  );
+                },
+              ).whenComplete(() {
+                _controller.roles.requestAccepter.shownConnectedDialog = true;
+                Navigator.of(context).pushNamed('/requestAccepterChat');
+              });
+            },
+          );
+        } else if (_controller.roles.requestCreater.connectionState ==
+                util.ConnectionState.Connected &&
+            _controller.roles.requestCreater.shownConnectedDialog == false) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConnectedDialog(
+                    ownRequest: true,
+                  );
+                },
+              ).whenComplete(() {
+                _controller.roles.requestCreater.shownConnectedDialog = true;
+                Navigator.of(context).pushNamed('/requestCreaterChat');
+              });
+            },
+          );
+        }
+
         if (_controller.roles.requestAccepter.connectionState ==
                 util.ConnectionState.Disconnected ||
             _controller.roles.requestAccepter.connectionState ==

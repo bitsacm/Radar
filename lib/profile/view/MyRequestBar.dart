@@ -1,10 +1,9 @@
-import 'package:Radar/profile/controller/ProfileController.dart';
-import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:flutter/material.dart';
 
 class MyRequestBar extends StatelessWidget {
-  final RequestsController _controller;
-  MyRequestBar(this._controller);
+  final myRequestTitle;
+  final Function cancelMyRequest;
+  MyRequestBar({@required this.myRequestTitle, @required this.cancelMyRequest});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +16,7 @@ class MyRequestBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              _controller.roles.requestCreater.requestTitle,
+              myRequestTitle,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -28,7 +27,7 @@ class MyRequestBar extends StatelessWidget {
                 color: Colors.red,
                 size: 25,
               ),
-              onPressed: () => _controller.cancelMyRequest(),
+              onPressed: cancelMyRequest,
             ),
           ],
         ),

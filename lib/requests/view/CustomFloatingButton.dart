@@ -165,7 +165,7 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton>
         }
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[...list],
+          children: list,
         );
       },
     );

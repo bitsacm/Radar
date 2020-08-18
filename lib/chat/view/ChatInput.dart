@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ChatInput extends StatelessWidget {
   final TextEditingController _inputController = TextEditingController();
-  final Function _sendMessage;
-  ChatInput(this._sendMessage);
+  final Function sendMessage;
+  ChatInput({@required this.sendMessage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +27,7 @@ class ChatInput extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.send),
                 onPressed: () {
-                  _sendMessage(_inputController.text);
+                  sendMessage(_inputController.text);
                 },
                 color: Theme.of(context).primaryColor,
               ),

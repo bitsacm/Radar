@@ -1,16 +1,17 @@
-import 'package:Radar/utils/ConnectionState.dart';
+import 'package:Radar/utils/ConnectionState.dart' as util;
+import 'package:flutter/material.dart';
 import '../chat/model/Message.dart';
 
 class Role {
   String endpointId;
   List<Message> messages = [];
   Message currentMessage;
-  ConnectionState connectionState = ConnectionState.Disconnected;
+  util.ConnectionState connectionState = util.ConnectionState.Disconnected;
   String requestTitle;
   String requestDescription;
   Function sendMessage;
-
-  Role({this.endpointId, this.sendMessage});
+  bool shownDisconnectedDialog;
+  bool shownConnectedDialog;
 
   void addRequestDetails(String title, String description) {
     requestTitle = title;
@@ -29,9 +30,19 @@ class Role {
       return false;
   }
 
-  void clearMessages() {
+  void connect({@required String endpointId, @required Function sendMessage}) {
+    this.endpointId = endpointId;
+    connectionState = util.ConnectionState.Connected;
+    shownDisconnectedDialog = false;
+    shownConnectedDialog = false;
+    this.sendMessage = sendMessage;
+  }
+
+  void disconnect() {
     messages.clear();
     currentMessage = null;
-    sendMessage=null;
+    sendMessage = null;
+    endpointId = null;
+    connectionState = util.ConnectionState.Disconnected;
   }
 }

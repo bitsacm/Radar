@@ -26,12 +26,10 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: Consumer2<ProfileController, RequestsController>(
-        builder: (context, _profileController, _requestscontroller, child) {
-          if (_requestscontroller
-                      .roles.requestCreater.connectionState ==
+        builder: (context, _controller, _, child) {
+          if (_controller.roles.requestCreater.connectionState ==
                   util.ConnectionState.Disconnected ||
-              _requestscontroller
-                      .roles.requestCreater.connectionState ==
+              _controller.roles.requestCreater.connectionState ==
                   util.ConnectionState.Connected) {
             return Stack(
               children: <Widget>[
@@ -100,15 +98,22 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (_requestscontroller.roles.requestCreater
-                    .doRequestDetailsExist())
+                if (_controller.roles.requestCreater.doRequestDetailsExist())
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
-                      child: MyRequestBar(_requestscontroller),
+                      child: MyRequestBar(
+                        myRequestTitle:
+                            _controller.roles.requestCreater.requestTitle,
+                        cancelMyRequest: _controller.cancelMyRequest,
+                      ),
                       onTap: () => showModalBottomSheet(
-                        builder: (context) =>
-                            MyRequestDetails(_requestscontroller),
+                        builder: (context) => MyRequestDetails(
+                          myRequestTitle:
+                              _controller.roles.requestCreater.requestTitle,
+                          myRequestDescription: _controller
+                              .roles.requestCreater.requestDescription,
+                        ),
                         context: context,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),

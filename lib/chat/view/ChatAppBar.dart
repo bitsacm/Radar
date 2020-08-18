@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final String description;
-  ChatAppBar(this.title, this.description);
+  ChatAppBar({@required this.title, @required this.description});
   @override
   Widget build(BuildContext context) {
     return Container(

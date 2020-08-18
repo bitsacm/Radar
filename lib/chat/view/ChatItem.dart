@@ -3,8 +3,8 @@ import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 
 class ChatItem extends StatelessWidget {
-  final Message _message;
-  ChatItem(this._message);
+  final Message message;
+  ChatItem({@required this.message});
   @override
   Widget build(BuildContext context) {
     double pixelRatio = MediaQuery.of(context).devicePixelRatio;
@@ -25,9 +25,9 @@ class ChatItem extends StatelessWidget {
       alignment: Alignment.topRight,
     );
     return Bubble(
-      style: _message.ownMessage ? myMessageStyle : recievedMessageStyle,
+      style: message.ownMessage ? myMessageStyle : recievedMessageStyle,
       child: Text(
-        _message.text,
+        message.text,
         style: TextStyle(fontSize: 15),
       ),
     );

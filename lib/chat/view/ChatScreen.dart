@@ -2,6 +2,7 @@ import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:Radar/chat/view/ChatAppBar.dart';
 import 'package:Radar/chat/view/ChatInput.dart';
 import 'package:Radar/chat/view/ChatItem.dart';
+import 'package:Radar/utils/DisconnectedDialog.dart';
 import 'package:Radar/utils/Role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -24,9 +25,24 @@ class ChatScreen extends StatelessWidget {
           _role = _requestsController.roles.requestCreater;
         }
 
-        if (_role.connectionState != util.ConnectionState.Connected) {
+        if (_role.connectionState != util.ConnectionState.Connected &&
+            _role.shownDisconnectedDialog == false) {
           _schedulerBinding.addPostFrameCallback((_) {
-            Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+            showDialog(
+              context: context,
+              builder: (context) => DisconnectedDialog(),
+            ).whenComplete(() {
+              if (_routeName == '/requestAccepterChat') {
+                _requestsController
+                    .roles.requestAccepter.shownDisconnectedDialog = true;
+              } else {
+                _requestsController
+                    .roles.requestCreater.shownDisconnectedDialog = true;
+              }
+              Navigator.of(context).popUntil(
+                ModalRoute.withName('/home'),
+              );
+            });
             return Container();
           });
         }
@@ -40,8 +56,8 @@ class ChatScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: ChatAppBar(
-            _role.requestTitle,
-            _role.requestDescription,
+            title: _role.requestTitle,
+            description: _role.requestDescription,
           ),
           body: SafeArea(
             child: Column(
@@ -49,13 +65,16 @@ class ChatScreen extends StatelessWidget {
                 Flexible(
                   child: ListView.builder(
                     padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) =>
-                        ChatItem(_role.messages[index]),
+                    itemBuilder: (context, index) => ChatItem(
+                      message: _role.messages[index],
+                    ),
                     itemCount: _role.messages.length,
                     controller: _scrollController,
                   ),
                 ),
-                ChatInput(_role.sendMessage),
+                ChatInput(
+                  sendMessage: _role.sendMessage,
+                ),
               ],
             ),
           ),

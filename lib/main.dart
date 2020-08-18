@@ -15,7 +15,7 @@ void main() async {
   final Roles _roles = Roles();
   final RequestsController _requestsController =
       RequestsController(_secureStorage, _roles);
-  final ProfileController _profileController = ProfileController();
+  final ProfileController _profileController = ProfileController(_roles);
   if ((await _secureStorage.read(key: 'UID')) == null)
     runApp(MyApp(
       initialRoute: '/login',
