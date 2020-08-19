@@ -3,7 +3,7 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
   "contributors": [
     {
       "login": "Penguin-12",
@@ -15,9 +15,28 @@
         "maintenance",
         "review"
       ]
+    },
+    {
+      "login": "akshatgarg18",
+      "name": "Akshat Garg",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/60299232?v=4",
+      "profile": "https://github.com/akshatgarg18",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "pavankalyan0424",
+      "name": "Addepalli N M PavanKalyan",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/57014239?v=4",
+      "profile": "https://github.com/pavankalyan0424",
+      "contributions": [
+        "code"
+      ]
     }
   ],
-  "contributorsPerLine": 7,
+  "contributorsPerLine": 5,
   "projectName": "Radar",
   "projectOwner": "bitsacm",
   "repoType": "github",
