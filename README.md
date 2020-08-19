@@ -46,7 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Penguin-12"><img src="https://avatars3.githubusercontent.com/u/54632810?v=4" width="100px;" alt=""/><br /><sub><b>Josh Wadhwa</b></sub></a><br /><a href="https://github.com/bitsacm/Radar/commits?author=Penguin-12" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Penguin-12"><img src="https://avatars3.githubusercontent.com/u/54632810?v=4" width="100px;" alt=""/><br /><sub><b>Josh Wadhwa</b></sub></a><br /><a href="https://github.com/bitsacm/Radar/commits?author=Penguin-12" title="Code">💻</a> <a href="#maintenance-Penguin-12" title="Maintenance">🚧</a> <a href="https://github.com/bitsacm/Radar/pulls?q=is%3Apr+reviewed-by%3APenguin-12" title="Reviewed Pull Requests">👀</a></td>
   </tr>
 </table>
 
