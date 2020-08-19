@@ -1,6 +1,6 @@
 # Radar
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Radar aims at developing an app through which you could ask for help from nearby strangers, in an anonymous manner.
 The initial project is developed keeping in mind the setting of a typical University. Often students find themselves in need of trivial things like a charger for their phone while studying in the library. Instead of travelling all the way back to your hostel, one can simply post for help in the app, in an anonymous manner, and everyone in the nearby areas would recive a notification. Anyone willing to help can reply back on the app, thus saving the person lots of valuable time. The app can also be used to inform students about lost and found items.
