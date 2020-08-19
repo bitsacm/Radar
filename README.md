@@ -1,4 +1,7 @@
 # Radar
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 Radar aims at developing an app through which you could ask for help from nearby strangers, in an anonymous manner.
 The initial project is developed keeping in mind the setting of a typical University. Often students find themselves in need of trivial things like a charger for their phone while studying in the library. Instead of travelling all the way back to your hostel, one can simply post for help in the app, in an anonymous manner, and everyone in the nearby areas would recive a notification. Anyone willing to help can reply back on the app, thus saving the person lots of valuable time. The app can also be used to inform students about lost and found items.
 This being said, the app can later be expanded to be used in a more general setting, wherein people might ask for first-aid help, or ask other people from their own locality to get them small things from the market. The second use case has the potential to become a major one, given the current situation of the COVID-19 pandemic, as it would help reduce crowding at shops.
@@ -33,3 +36,22 @@ into seperate files as helper widgets.
   - Package names should be in lower case.
   - Class names should follow Pascal case.
   - Variable and function names should follow Camel case.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://jakebolam.com"><img src="https://avatars2.githubusercontent.com/u/3534236?v=4" width="100px;" alt=""/><br /><sub><b>Jake Bolam</b></sub></a><br /><a href="https://github.com/bitsacm/Radar/commits?author=jakebolam" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
