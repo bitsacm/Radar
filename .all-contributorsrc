@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Penguin-12",
+      "name": "Josh Wadhwa",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/54632810?v=4",
+      "profile": "https://github.com/Penguin-12",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Radar",
+  "projectOwner": "bitsacm",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
