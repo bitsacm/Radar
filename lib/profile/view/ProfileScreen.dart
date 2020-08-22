@@ -2,11 +2,11 @@ import 'package:Radar/profile/controller/ProfileController.dart';
 import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
+import 'package:Radar/utils/ConnectionState.dart' as util;
 import 'package:Radar/utils/logoutFeature.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:Radar/utils/ConnectionState.dart' as util;
 
 class ProfileScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -21,9 +21,11 @@ class ProfileScreen extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Image.asset('assets/profile_screen/logout.png'),
-            onPressed: () {logOut().then((value) {
-              Navigator.of(context).pushReplacementNamed('/login');
-            });},
+            onPressed: () async {
+              await logOut();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            },
             color: Colors.white,
           )
         ],
