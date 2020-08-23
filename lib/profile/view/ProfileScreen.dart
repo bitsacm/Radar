@@ -3,17 +3,16 @@ import 'package:Radar/profile/view/MyRequestBar.dart';
 import 'package:Radar/profile/view/MyRequestDetails.dart';
 import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:Radar/utils/ConnectionState.dart' as util;
-import 'package:Radar/utils/logoutFeature.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+    ProfileController profileController ;
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -22,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             icon: Image.asset('assets/profile_screen/logout.png'),
             onPressed: () async {
-              await logOut();
+               await profileController.logout();
               Navigator.pushNamedAndRemoveUntil(
                   context, '/login', (route) => false);
             },
@@ -32,6 +31,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Consumer2<ProfileController, RequestsController>(
         builder: (context, _controller, _, child) {
+          profileController = _controller;
           if (_controller.roles.requestCreater.connectionState ==
                   util.ConnectionState.Disconnected ||
               _controller.roles.requestCreater.connectionState ==
