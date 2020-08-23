@@ -8,7 +8,7 @@ Future logOut()async{
   final _auth = FirebaseAuth.instance;
   await _secureStorage.delete(key: 'UID');
   await _secureStorage.delete(key: 'UserName');
-  await _secureStorage.delete(key: 'Avatear');
+  await _secureStorage.delete(key: 'Avatar');
   await _auth.signOut();
   await _googleSignIn.signOut();
 }
