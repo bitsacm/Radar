@@ -12,9 +12,6 @@ class ProfileController with ChangeNotifier {
 
   ProfileController(this.roles, this.secureStorage);
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final _auth = FirebaseAuth.instance;
-
   void cancelMyRequest() async {
     roles.requestCreater.clearRequestDetails();
     await _nearby.stopAdvertising();
@@ -22,6 +19,8 @@ class ProfileController with ChangeNotifier {
   }
 
   Future logout() async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final _auth = FirebaseAuth.instance;
     await secureStorage.delete(key: 'UID');
     await secureStorage.delete(key: 'UserName');
     await secureStorage.delete(key: 'Avatar');
