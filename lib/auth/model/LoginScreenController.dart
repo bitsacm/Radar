@@ -13,7 +13,7 @@ enum LoginScreenState {
 }
 
 class LoginScreenController extends ChangeNotifier {
-  Either<Failure, FirebaseUser> user;
+  Either<Failure, dynamic> user;
   AuthRepository _authRepository;
   LoginScreenState screenState;
   FlutterSecureStorage secureStorage;
