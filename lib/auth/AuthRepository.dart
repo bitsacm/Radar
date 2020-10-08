@@ -1,5 +1,6 @@
 import 'package:Radar/utils/Failure.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -19,9 +20,19 @@ class AuthRepository {
     _auth = FirebaseAuth.instance;
   }
 
-  Future<FirebaseUser> signInUsingGoogle() async {
-    var googleUser = await _googleSignIn.signIn();
+  Future<dynamic> signInUsingGoogle() async {
+    GoogleSignInAccount googleUser;
     try {
+      googleUser = await _googleSignIn.signIn();
+    } on PlatformException catch (error) {
+      if (error.code == 'network_error')
+        throw Failure('Not connected to internet');
+    } catch (unexpectedError) {
+      throw Failure('An unexpected error has occoured ($unexpectedError)');
+    }
+    if (googleUser == null)
+      throw Failure('Sigin was aborted');
+    else {
       var googleSignInAuthentication = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.getCredential(
           idToken: googleSignInAuthentication.idToken,
@@ -31,8 +42,6 @@ class AuthRepository {
       _secureStorage.write(key: 'UserName', value: user.displayName);
       _secureStorage.write(key: 'Avatar', value: user.photoUrl);
       return user;
-    } catch(e) {
-      throw Failure('Unable to Login. Please try again.');
     }
   }
 }
