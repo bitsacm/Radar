@@ -19,6 +19,7 @@ class ChatScreen extends StatelessWidget {
     return Consumer<RequestsController>(
       builder: (context, _requestsController, child) {
         ScrollController _scrollController = ScrollController();
+
         if (_routeName == '/requestAccepterChat') {
           _role = _requestsController.roles.requestAccepter;
         } else {
