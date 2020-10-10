@@ -47,8 +47,12 @@ class ChatScreen extends StatelessWidget {
         _schedulerBinding.addPostFrameCallback((_) {
           _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
         });
+
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            title: Text('Chat'),
+            backgroundColor: Color.fromARGB(255, 22, 86, 189),
+          ),
           body: SafeArea(
             child: Column(
               children: <Widget>[
