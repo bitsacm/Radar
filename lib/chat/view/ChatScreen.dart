@@ -25,19 +25,16 @@ class ChatScreen extends StatelessWidget {
           _role = _requestsController.roles.requestCreater;
         }
 
-        if (_role.connectionState != util.ConnectionState.Connected &&
-            _role.shownDisconnectedDialog == false) {
+        if (_role.connectionState != util.ConnectionState.Connected && _role.shownDisconnectedDialog == false) {
           _schedulerBinding.addPostFrameCallback((_) {
             showDialog(
               context: context,
               builder: (context) => DisconnectedDialog(),
             ).whenComplete(() {
               if (_routeName == '/requestAccepterChat') {
-                _requestsController
-                    .roles.requestAccepter.shownDisconnectedDialog = true;
+                _requestsController.roles.requestAccepter.shownDisconnectedDialog = true;
               } else {
-                _requestsController
-                    .roles.requestCreater.shownDisconnectedDialog = true;
+                _requestsController.roles.requestCreater.shownDisconnectedDialog = true;
               }
               Navigator.of(context).popUntil(
                 ModalRoute.withName('/home'),
@@ -48,20 +45,19 @@ class ChatScreen extends StatelessWidget {
         }
 
         _schedulerBinding.addPostFrameCallback((_) {
-          _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOut);
+          _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
         });
-
         return Scaffold(
-          appBar: ChatAppBar(
-            title: _role.requestTitle,
-            description: _role.requestDescription,
-          ),
+          appBar: AppBar(),
           body: SafeArea(
             child: Column(
               children: <Widget>[
+                Card(
+                  child: ListTile(
+                    title: Text(_role.requestTitle),
+                    subtitle: Text(_role.requestDescription),
+                  ),
+                ),
                 Flexible(
                   child: ListView.builder(
                     padding: EdgeInsets.all(10.0),
