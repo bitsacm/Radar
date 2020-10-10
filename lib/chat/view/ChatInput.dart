@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Radar/utils/Toast.dart';
 
 class ChatInput extends StatelessWidget {
   final TextEditingController _inputController = TextEditingController();
@@ -27,7 +28,12 @@ class ChatInput extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.send),
                 onPressed: () {
-                  sendMessage(_inputController.text);
+                  String msg = _inputController.text.trim();
+                  if (msg.isNotEmpty && msg.length > 0) {
+                    sendMessage(_inputController.text);
+                  } else {
+                    displayToast('Message cannot be empty');
+                  }
                 },
                 color: Theme.of(context).primaryColor,
               ),
@@ -38,9 +44,7 @@ class ChatInput extends StatelessWidget {
       ),
       width: double.infinity,
       height: 50.0,
-      decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey, width: 0.5)),
-          color: Colors.white),
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey, width: 0.5)), color: Colors.white),
     );
   }
 }
