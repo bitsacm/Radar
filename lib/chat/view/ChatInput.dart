@@ -15,7 +15,9 @@ class ChatInput extends StatelessWidget {
               child: TextField(
                 style: TextStyle(fontSize: 15.0),
                 controller: _inputController,
-                decoration: InputDecoration.collapsed(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
                   hintText: 'Type a message',
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
