@@ -12,7 +12,7 @@ class LogoutDialog extends StatelessWidget {
           children: <Widget>[
             Icon(
               Icons.info,
-              color: Colors.yellow,
+              color: Color.fromARGB(255, 22, 86, 189),
               size: 60,
             ),
             SizedBox(
@@ -36,7 +36,7 @@ class LogoutDialog extends StatelessWidget {
                 ),
                 SizedBox(width: 16),
                 FlatButton(
-                  color: Colors.yellow,
+                  color: Color.fromARGB(255, 22, 86, 189),
                   onPressed: () {
                     Navigator.pop(context);
                   },

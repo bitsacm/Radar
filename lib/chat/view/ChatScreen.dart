@@ -1,6 +1,7 @@
 import 'package:Radar/requests/controller/RequestsController.dart';
 import 'package:Radar/chat/view/ChatInput.dart';
 import 'package:Radar/chat/view/ChatItem.dart';
+import 'package:Radar/chat/view/ChatAppBar.dart';
 import 'package:Radar/utils/DisconnectedDialog.dart';
 import 'package:Radar/utils/Role.dart';
 import 'package:flutter/material.dart';
@@ -47,39 +48,50 @@ class ChatScreen extends StatelessWidget {
         _schedulerBinding.addPostFrameCallback((_) {
           _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
         });
-
         return Scaffold(
+          // appBar: ChatAppBar(
+          //   title: _role.requestTitle,
+          //   description: _role.requestDescription,
+          // ),
           appBar: AppBar(
-            title: Text('Chat'),
             backgroundColor: Color.fromARGB(255, 22, 86, 189),
-          ),
-          body: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Card(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    leading: Icon(Icons.info_outline_rounded, color: Color.fromARGB(255, 22, 86, 189)),
-                    title: Text(_role.requestTitle ?? 'Title'),
-                    subtitle: Text(_role.requestDescription ??
-                        'Maiores dolor quibusdam esse minus in. Fuga incidunt quaerat temporibus harum nemo impedit quibusdam expedita suscipit. Ut dicta dolore labore consequuntur itaque. Incidunt sed autem ea autem molestiae ducimus.'),
-                  ),
-                ),
-                Flexible(
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) => ChatItem(
-                      message: _role.messages[index],
+            title: Text(_role.requestTitle ?? 'Request title'),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.info_outline_rounded),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => SimpleDialog(
+                      title: Text(_role.requestTitle ?? 'Request title'),
+                      children: [
+                        Text(_role.requestTitle ??
+                            'Laudantium sit quis voluptatibus non. Vel cupiditate enim eos eum dolorem. Natus ea veritatis porro ut quos consequatur. Qui praesentium ex vero cupiditate explicabo voluptas est.'),
+                      ],
+                      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                     ),
-                    itemCount: _role.messages.length,
-                    controller: _scrollController,
+                  );
+                },
+              ),
+            ],
+            toolbarHeight: 56,
+          ),
+          body: Column(
+            children: <Widget>[
+              Flexible(
+                child: ListView.builder(
+                  padding: EdgeInsets.all(10.0),
+                  itemBuilder: (context, index) => ChatItem(
+                    message: _role.messages[index],
                   ),
+                  itemCount: _role.messages.length,
+                  controller: _scrollController,
                 ),
-                ChatInput(
-                  sendMessage: _role.sendMessage,
-                ),
-              ],
-            ),
+              ),
+              ChatInput(
+                sendMessage: _role.sendMessage,
+              ),
+            ],
           ),
         );
       },
